@@ -31,7 +31,12 @@ class qa_html_theme_layer extends qa_html_theme_base {
 			echo '<p>・';
 			echo $item['title'] . ' : ';
 			if($item['content']){
-				echo $item['content'];
+				$urlPattern = '/^http.+/';
+				if(preg_match($urlPattern, $item['content']) == 0){
+					echo $item['content'];
+				} else {
+					echo '<a href="' . $item['content'] . '" >' . $item['content']  . '</a>';
+				}
 			} else {
 				echo '未記入';
 			}
