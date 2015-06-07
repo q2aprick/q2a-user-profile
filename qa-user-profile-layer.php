@@ -10,14 +10,21 @@ class qa_html_theme_layer extends qa_html_theme_base {
 		}
 
 		$profileItems = $this->getUserprofile($userId);
-		$this->displayUserprofile($profileItems);
+		$this->displayUserprofile($profileItems, $userId);
 	}
 
-	private function displayUserprofile($profileItems){
+	private function displayUserprofile($profileItems,$userId){
 
 		echo '<p>質問者の基本情報</p>';
+
 		if(!count($profileItems)) {
-			echo 'この質問者はプロフィールを入力していません';
+			$logginUserId = qa_get_logged_in_userid();
+			if($userId == $logginUserId){
+				echo 'プロフィールを入力してください';
+				echo '<a href="'.qa_path('account').'">' .こちら . '</a>';
+			}else{
+				echo 'この質問者はプロフィールを入力していません';
+			}
 			return;
 		}
 		foreach($profileItems as $item)  {
