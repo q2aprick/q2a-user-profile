@@ -2,12 +2,17 @@
 
 class qa_html_theme_layer extends qa_html_theme_base
 {
+		// show information about user
     public function post_avatar_meta($post, $class, $avatarprefix = null, $metaprefix = null, $metaseparator = '<br/>')
     {
         qa_html_theme_base::post_avatar_meta($post, $class, $avatarprefix, $metaprefix, $metaseparator);
 
         $userId = $post['raw']['userid'];
-        if (!isset($userId) || $class !== 'qa-q-view') {
+
+				if (!isset($userId)) {
+            return;
+				}
+				if ($class !== 'qa-q-view' && $class !== 'qa-a-item') {
             return;
         }
 
@@ -17,8 +22,6 @@ class qa_html_theme_layer extends qa_html_theme_base
 
     private function displayUserprofile($profileItems, $userId)
     {
-        $this->output('<p>質問者の基本情報</p>');
-
         if (!count($profileItems)) {
             $message = '';
             $logginUserId = qa_get_logged_in_userid();
