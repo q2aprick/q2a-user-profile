@@ -56,7 +56,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 
     private function getUserprofile($userId)
     {
-        $sql = $this->createUserprofileSQL($userId, array_keys($fields));
+        $sql = $this->createUserprofileSQL($userId);
         $result = qa_db_query_sub($sql);
 
         return qa_db_read_all_assoc($result);
