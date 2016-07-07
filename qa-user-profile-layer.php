@@ -42,7 +42,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 				$message .= $item['title'].' : ';
 				if ($item['content']) {
 					if ($item['title'] === '自己紹介') {
-						$length = mb_strlen($item['content']);
+						$length = mb_strlen($item['content'], 'UTF-8');
 						if ($length > $profile_max_length) {
 							$message .= mb_substr($item['content'],0,$profile_max_length - 6, 'UTF-8') . $read_more;
 						} else {
