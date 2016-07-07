@@ -5,7 +5,7 @@ class qa_user_profile_admin {
 	function option_default($option) {
 		switch($option) {
 			case 'qa_user_profile_max_length':
-				return 0;
+				return 80;
 			default:
 				return null;
 		}
