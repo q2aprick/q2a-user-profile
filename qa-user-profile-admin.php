@@ -19,7 +19,7 @@ class qa_user_profile_admin {
 		// process the admin form if admin hit Save-Changes-button
 		$ok = null;
 		if (qa_clicked('qa_user_profile_save')) {
-			qa_opt('qa_user_profile_length', qa_post_text('qa_user_profile_length'));
+			qa_opt('qa_user_profile_max_length', qa_post_text('qa_user_profile_max_length'));
 			$ok = qa_lang('admin/options_saved');
 		}
 
@@ -27,10 +27,10 @@ class qa_user_profile_admin {
 		$fields = array();
 
 		$fields[] = array(
-			'label' => 'Max Length: ',
+			'label' => 'Profile Max Length: ',
 			'type' => 'number',
-			'value' => (int)qa_opt('qa_user_profile_length'),
-			'tags' => 'name="qa_user_profile_length"',
+			'value' => (int)qa_opt('qa_user_profile_max_length'),
+			'tags' => 'name="qa_user_profile_max_length"',
 		);
 
 		return array(
