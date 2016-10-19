@@ -3,8 +3,9 @@
 class qa_html_theme_layer extends qa_html_theme_base
 {
 		// show information about user
-	public function post_avatar_meta($post, $class, $avatarprefix = null, $metaprefix = null, $metaseparator = '<br/>')
+	public function post_avatar_meta($post, $class, $profile_show = false,$avatarprefix = null, $metaprefix = null, $metaseparator = '<br/>')
 	{
+		
 		qa_html_theme_base::post_avatar_meta($post, $class, $avatarprefix, $metaprefix, $metaseparator);
 
 		$userId = $post['raw']['userid'];
@@ -17,7 +18,8 @@ class qa_html_theme_layer extends qa_html_theme_base
 		}
 
 		$profileItems = $this->getUserprofile($userId);
-		$this->displayUserprofile($profileItems, $userId, $handle);
+		if($profile_show)
+			$this->displayUserprofile($profileItems, $userId, $handle);
 	}
 
 	private function displayUserprofile($profileItems, $userId, $handle = null)
@@ -37,31 +39,46 @@ class qa_html_theme_layer extends qa_html_theme_base
 			$message = '';
 			$profile_max_length = qa_opt('qa_user_profile_max_length');
 			$read_more = $this->get_read_more($handle);
+			$this->output('<ul class="mdl-list">');
 			foreach ($profileItems as $item) {
-				$message .= '<p>・';
-				$message .= $item['title'].' : ';
+				//開始タグと閉じタグを指定　未記入ならその項目は表示しない
+				$wrap_list_tag = $item['content'] === ''?'':'<li class="mdl-list__item">';
+				$close_list_tag = $item['content'] === ''?'':'</li>';
+				$this->output($wrap_list_tag);
+				//開始タグと閉じタグを指定　未記入ならその項目は表示しない
+				$wrap_title_tag = $item['content'] === ''?'':'<span class="mdl-list__item-primary-content">';
+				$close_title_tag = $item['content'] === ''?'':'</span>';
+				$item_title = $item['content'] === ''?'':$item['title'];
+				$this->output($wrap_title_tag);
+				$this->output($item_title);
+				$this->output($wrap_title_tag);
+
+				//開始タグと閉じタグを指定　未記入ならその項目は表示しない
+				$wrap_content_tag = $item['content'] === ''?'':'<span  class="mdl-list__item-text-body">';
+				$close_content_tag = $item['content'] === ''?'':'</span>';
+				$this->output($wrap_content_tag);
+
 				if ($item['content']) {
 					if ($item['title'] === '自己紹介') {
 						$length = mb_strlen($item['content'], 'UTF-8');
 						if ($length > $profile_max_length) {
-							$message .= mb_substr($item['content'],0,$profile_max_length - 6, 'UTF-8') . $read_more;
+							$this->output(mb_substr($item['content'],0,$profile_max_length - 6, 'UTF-8') . $read_more);
 						} else {
-							$message .= $item['content'];
+							$this->output($item['content']);
 						}
 					} else {
 						$urlPattern = '/^http.+/';
 						if (preg_match($urlPattern, $item['content']) == 0) {
-							$message .= $item['content'];
+							$this->output($item['content']);
 						} else {
-							$message .= '<a href="'.$item['content'].'" >'.$item['content'].'</a>';
+							$this->output('<a href="'.$item['content'].'" >'.$item['content'].'</a>');
 						}
 					}
-				} else {
-					$message .= '未記入';
-				}
-				$message .= '</p>';
+				} 
+				$this->output($close_content_tag);
+				$this->output($close_list_tag);
 			}
-			$this->output($message);
+			$this->output('</ul>');
 		}
 	}
 
