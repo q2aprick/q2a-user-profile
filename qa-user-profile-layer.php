@@ -44,10 +44,12 @@ class qa_html_theme_layer extends qa_html_theme_base
 			$profile_max_length = qa_opt('qa_user_profile_max_length');
 			$read_more = $this->get_read_more($handle);
 
+			//プロフィール表示
 			$this->output('<div class="profile">');
+
 			$this->output('<div class="mdl-typography--subhead">');
 			$this->post_meta_who($post, 'meta');
-			$this->output('<button type="button" id="user-'.$userId.'" class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">more</i></button>');
+			
 			$this->output('</div>');
 			
 			$profile_intro = $profileItems[2]['content'];
@@ -60,7 +62,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 			$this->output('</div>');
 
 			$this->output('</div>');
-			$this->output('<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="user-'.$userId.'">');
+			/* $this->output('<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="user-'.$userId.'">');
 			foreach ($profileItems as $item) {
 				if ($item['content']) {
 					
@@ -100,7 +102,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 					$this->output('</li>');
 				}
 			}
-			$this->output('</ul>');
+			$this->output('</ul>');*/
 		}
 	}
 
