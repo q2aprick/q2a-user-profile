@@ -50,7 +50,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 			$this->output('<div class="mdl-typography--subhead">');
 			$this->post_meta_who($post, 'meta');
 			//活動場所を表示
-			$this->output('<span class="mdl-chip__text">活動場所：'.$profileItems[0]['content'].'</span>');
+			$this->output('<span class="mdl-chip__text"><span class="mdl-typography--font-bold">活動場所</span>：'.$profileItems[0]['content'].'</span>');
 			$this->output('</div>');
 			
 			$profile_intro = $profileItems[2]['content'];
