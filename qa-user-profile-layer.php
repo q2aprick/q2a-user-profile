@@ -5,14 +5,18 @@ class qa_html_theme_layer extends qa_html_theme_base
 		// show information about user
 	public function post_avatar_meta($post, $class,$post_meta_show = true, $avatarprefix = null, $metaprefix = null, $metaseparator = '<br/>')
 	{
+		//コメントリストの場合はflex-styleで囲む
+		$c_item_class = ($class === "qa-c-item") ? 'flex-style' :  '' ;
+		//アバター画像がある時だけタグ生成
 		if (isset($post['avatar']))
-			$this->output('<span class="'.$class.'-avatar-meta">');
+			$this->output('<span class="'.$class.'-avatar-meta '.$c_item_class.'">');
 		
 		$this->avatar($post, $class, $avatarprefix);
 		
 		if($post_meta_show)
 			$this->post_meta($post, $class, $metaprefix, $metaseparator);
 		
+		//アバター画像がある時だけタグ生成
 		if (isset($post['avatar']))
 			$this->output('</span>');
 		
