@@ -5,12 +5,20 @@ class qa_html_theme_layer extends qa_html_theme_base
 		// show information about user
 	public function post_avatar_meta($post, $class,$post_meta_show = true, $avatarprefix = null, $metaprefix = null, $metaseparator = '<br/>')
 	{
+		//コメントリストの場合はflex-styleで囲む
+		$c_item_class = ($class === "qa-c-item") ? 'flex-style' :  '' ;
+		//アバター画像がある時だけタグ生成
+		if (isset($post['avatar']))
+			$this->output('<span class="'.$class.'-avatar-meta '.$c_item_class.'">');
 		
-		$this->output('<span class="'.$class.'-avatar-meta">');
 		$this->avatar($post, $class, $avatarprefix);
+		
 		if($post_meta_show)
 			$this->post_meta($post, $class, $metaprefix, $metaseparator);
-		$this->output('</span>');
+		
+		//アバター画像がある時だけタグ生成
+		if (isset($post['avatar']))
+			$this->output('</span>');
 		
 		$userId = $post['raw']['userid'];
 		$handle = $post['raw']['handle'];
@@ -25,7 +33,22 @@ class qa_html_theme_layer extends qa_html_theme_base
 		
 		$this->displayUserprofile($post,$profileItems, $userId, $handle);
 	}
-
+	public function avatar($item, $class, $prefix=null)
+	{
+		if (isset($item['avatar'])) {
+			if (isset($prefix))
+				$this->output($prefix);
+			//アバターのサイズを取得して$qa_size[]に格納
+			preg_match('/qa_size=([0-9][0-9])/is', $item['avatar'], $qa_size);
+			//アバター画像を丸の中に収めるようにサイズを小さく
+			$img_width_height = $qa_size[1]*0.7;
+			$this->output(
+				'<div class="'.$class.'-avatar" style="background:url(./?qa=image&qa_blobid='.$item['raw']['avatarblobid'].'&qa_size='.$qa_size[1].') no-repeat center center;height: '.$img_width_height.'px;width: '.$img_width_height.'px;display:inline-block;border-radius: 50%;background-color: #757575;margin-right:6px;">',
+				
+				'</div>'
+			);
+		}
+	}
 	private function displayUserprofile($post,$profileItems, $userId, $handle = null)
 	{
 		if (!count($profileItems)) {
